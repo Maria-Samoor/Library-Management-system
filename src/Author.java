@@ -35,10 +35,15 @@ public class Author extends Person{
     }
 
     /**
-     * Override inherited method displayInfo to print Author details
+     * Returns a string representation of the Author object.
+     * This method provides a custom string representation of the Author object,
+     * including the name, national ID, gender, and genre of the author.
+     *
+     * @return A string representation of the Author object.
      */
     @Override
-    public void displayInfo() {
-        System.out.println(super.getName() + " with National ID:"+ super.getNationalId()+" is a "+super.getGender()+ " write specialized in"+ this.genre);
+    public String toString() {
+        return "Author{" + super.getName() + " with National ID:"+ super.getNationalId()+" is a "+super.getGender()+ " write specialized in"+ this.genre;
     }
+
 }

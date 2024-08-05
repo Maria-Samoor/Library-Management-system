@@ -1,33 +1,31 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-import java.util.OptionalDouble;
 import java.util.Scanner;
 import java.util.List;
 
 public class Main {
-    private static final int STUDENT_USER = 1;
-    private static final int STAFF_USER = 2;
-    private static final int ADD_BOOK= 1;
-    private static final int REMOVE_BOOK = 2;
-    private static Scanner scanner = new Scanner(System.in);
-
+    private static final int STUDENT_USER = 1;// Identifier for student user type
+    private static final int STAFF_USER = 2;// Identifier for staff user type
+    private static final int ADD_BOOK= 1; // Action code for adding a book
+    private static final int REMOVE_BOOK = 2; // Action code for removing a book
+    private static Scanner scanner = new Scanner(System.in);// Scanner instance for user input
+    
     public static void main(String[] args) {
         Library library = new Library();
 
-        Author author1 = new Author("naji", "male", "12345", "fiction");
-        Book book1 = new Book("1234567891011", 2005, "book1", "paper", "company 1", author1);
-        library.addBook(book1);
+        Author fictionAuthor = new Author("naji", "male", "12345", "fiction");
+        Book paperBook = new Book("1234567891011", 2005, "paperBook", "paper", "company 1", fictionAuthor);
+        library.addBook(paperBook);
 
-        Author author2 = new Author("alali", "male", "67890", "non-fiction");
-        Book book2 = new Book("1110987654321", 2000, "book2", "pdf", "company 2", author2);
-        library.addBook(book2);
+        Author nonFictionAuthor = new Author("alali", "male", "67890", "non-fiction");
+        Book pdfBook = new Book("1110987654321", 2000, "pdfBook", "pdf", "company 2", nonFictionAuthor);
+        library.addBook(pdfBook);
 
         library.addStudent(new Student("maria", "female", "401899599", "237111"));
         library.addStudent(new Student("ahmad", "male", "401899999", "201172"));
         library.addStaff(new Staff("staff1", "male", "401899992", 50000));
         library.addStaff(new Staff("staff2", "female", "401899991", 60000));
-        System.out.println("Enter 1 if you are a student, 2 if you are a staff:");
-        int userType = scanner.nextInt();
+        int userType = UserInputHandler.getUserType();
 
         if (userType == STUDENT_USER) {
             handleStudent(library);
@@ -38,7 +36,6 @@ public class Main {
             System.out.println("Invalid input.");
         }
         scanner.close();
-
     }
     /**
      * Handles operations for students, such as renting books.
@@ -46,17 +43,10 @@ public class Main {
      * @param library the library instance
      */
     private static void handleStudent(Library library) {
-        System.out.print("Enter your student ID: ");
-        String studentId = scanner.next();
+        String studentId = UserInputHandler.getStudentId();
         if (library.isValidStudent(studentId)) {
             library.displayBooks();
-            System.out.print("Enter index of the book you want to rent: ");
-            int bookIndexToRent = scanner.nextInt();
-            /*
-             Thread: handle each borrow request in a Thread.
-             Thread takes runnable object as an argument (implementation of abstract method (run) in runnable interface).
-             runnable: functional interface, hence we can use lambda.               * library.rentBook(bookIndexToRent - 1) : implementation of run method.
-            */
+            int bookIndexToRent = UserInputHandler.getBookIndexToRent();
             new Thread(() -> library.rentBook(bookIndexToRent - 1)).start();
         } else {
             System.out.println("Invalid student ID.");
@@ -69,9 +59,7 @@ public class Main {
      * @param library the library instance
      */
     private static void handleStaff(Library library) {
-        System.out.println("Choose operation to perform: enter 1 to add Book and 2 to remove book:");
-        int action = scanner.nextInt();
-
+        int action = UserInputHandler.getStaffAction();
         if (action == ADD_BOOK) {
             addBook(library);
         } else if (action == REMOVE_BOOK) {
@@ -86,41 +74,23 @@ public class Main {
      * @param library the library instance
      */
     private static void addBook(Library library) {
-        System.out.println("Enter book details:");
-        System.out.print("ISBN: ");
-        String isbn = scanner.next();
-        System.out.print("Year: ");
-        int year = scanner.nextInt();
-        System.out.print("Title: ");
-        String title = scanner.next();
-        System.out.print("Type: ");
-        String type = scanner.next();
-        System.out.print("Publisher: ");
-        String publisher = scanner.next();
-        System.out.print("Author name: ");
-        String authorName = scanner.next();
-        System.out.print("Author gender: ");
-        String authorGender = scanner.next();
-        System.out.print("Author national ID: ");
-        String authorNationalID = scanner.next();
-        System.out.print("Author genre: ");
-        String authorGenre = scanner.next();
+        String[] bookAttributes = {"ISBN: ", "Year: ", "Title: ", "Type: ", "Publisher: ", "Author name: ", "Author gender: ", "Author national ID: ", "Author genre: "};
+        String[] bookDetails = UserInputHandler.getBookDetails(bookAttributes);
 
-        Author author = new Author(authorName, authorGender, authorNationalID, authorGenre);
-        Book newBook = new Book(isbn, year, title, type, publisher, author);
+        Author author = new Author(bookDetails[5], bookDetails[6], bookDetails[7], bookDetails[8]);
+        Book newBook = new Book(bookDetails[0], Integer.parseInt(bookDetails[1]), bookDetails[2], bookDetails[3], bookDetails[4], author);
         library.addBook(newBook);
         System.out.println("Book added.");
     }
 
     /**
-     * Prompts the user to enter the index of the book to remove and removes the book from the library.
+     * Prompts the user to enter the index of the book to remove the book from the library.
      *
      * @param library the library instance
      */
     private static void removeBook(Library library) {
         library.displayBooks();
-        System.out.print("Enter index of the book to remove: ");
-        int removeIndex = scanner.nextInt();
+        int removeIndex = UserInputHandler.getRemoveBookIndex();
         library.removeBook(removeIndex - 1);
         System.out.println("Book removed.");
     }

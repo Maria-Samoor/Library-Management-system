@@ -2,9 +2,9 @@
  * Abstract Person class serves as a base class for any child class with the attributes name, gender, and national ID
  */
 abstract class Person {
-    private String name;
-    private String gender;
-    private String nationalId;
+    private String name; // Person name
+    private String gender; // Person gender(Female or Male)
+    private String nationalId; // National Identification number for person
 
     /**
      * Constructor to initialize a Person object with name, gender, and nationalId.
@@ -72,9 +72,4 @@ abstract class Person {
     public void setNationalId(String nationalId) {
         this.nationalId = nationalId;
     }
-
-    /**
-     * Abstract method to display information, to be implemented by subclasses
-     */
-    public abstract void displayInfo();
 }

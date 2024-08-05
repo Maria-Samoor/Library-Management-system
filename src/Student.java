@@ -2,7 +2,7 @@
  * Student class extends the Person class and represents a student with a student ID.
  */
 public class Student extends Person{
-    private String studentId; // This attribute stores the student's ID
+    private String studentId; // The student identification
 
     /**
      * Constructor to initialize a Student object with name, gender, nationalID, and studentId.
@@ -36,10 +36,15 @@ public class Student extends Person{
     }
 
     /**
-     * Override inherited method displayInfo to print Author details
+     * Returns a string representation of the Student object.
+     * This method overrides the default toString method to provide a custom
+     * string representation of the Student object, including the name, national ID,gender,
+     * and student ID.
+     *
+     * @return A string representation of the Student object.
      */
     @Override
-    public void displayInfo() {
-        System.out.println(super.getName() + " with this ID:"+ this.studentId+" is "+super.getGender()+ " and has National ID:"+ super.getNationalId());
+    public String toString() {
+        return "Student{" +  super.getName() + " with this ID:"+ this.studentId+" is "+super.getGender()+ " and has National ID:"+ super.getNationalId();
     }
 }

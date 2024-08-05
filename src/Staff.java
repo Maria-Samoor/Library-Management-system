@@ -42,10 +42,15 @@ public class Staff extends Person{
     }
 
     /**
-     * Override inherited method displayInfo to print Author details
+     * Returns a string representation of the Staff object.
+     * This method overrides the default toString method to provide a custom
+     * string representation of the Staff object, including the name, national ID,gender,
+     * and salary of the staff member.
+     *
+     * @return A string representation of the Staff object.
      */
     @Override
-    public void displayInfo() {
-        System.out.println(super.getName() + " with this National ID:"+ super.getNationalId()+" is "+super.getGender()+ " and has salary ="+ this.salary);
+    public String toString() {
+        return "Staff{" + super.getName() + " with this National ID:"+ super.getNationalId()+" is "+super.getGender()+ " and has salary ="+ this.salary;
     }
 }

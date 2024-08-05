@@ -6,12 +6,12 @@ import java.time.Year;
  * Represents a book with attributes such as ISBN, year of publication, title, type, publisher, and author.
  */
 public class Book {
-    private int year;
-    private String title;
-    private String isbn;
-    private String type;
-    private String publisher;
-    private Author author;
+    private int year; // The year the book was published
+    private String title;// Title of the book
+    private String isbn; // International standard book number, unique for each book
+    private String type; // The type of the book (e.g., fiction, non-fiction, mystery)
+    private String publisher; // The book publisher
+    private Author author;// The author of the book, represented by an Author object
 
     /**
      * Constructor to Initialize a Book object with ISBN, year, title, type, publisher, and author.
