@@ -27,10 +27,14 @@ class Library {
      * @param book  the book to add to the library
      */
     public void addBook(Book book) {
-        if (book == null) {
-            throw new NullPointerException("Cannot add a null book.");
+        try {
+            if (book == null) {
+                throw new NullPointerException("Cannot add a null book.");
+            }
+            books.add(book);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
         }
-        books.add(book);
     }
 
     /**
