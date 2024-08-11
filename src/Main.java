@@ -10,19 +10,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Library library = new Library();
-        Author fictionAuthor = new Author("naji", "male", "12345", "fiction");
-        Book paperBook = new Book("1234567891011", 2005, "paperBook", "paper", "company 1", fictionAuthor);
-        library.addBook(paperBook);
-        Author nonFictionAuthor = new Author("alali", "male", "67890", "non-fiction");
-        Book pdfBook = new Book("1110987654321", 2000, "pdfBook", "pdf", "company 2", nonFictionAuthor);
-        library.addBook(pdfBook);
-        library.addStudent(new Student("maria", "female", "401899599", "237111"));
-        library.addStudent(new Student("ahmad", "male", "401899999", "201172"));
-        library.addStaff(new Staff("staff1", "male", "401899992", 50000));
-        library.addStaff(new Staff("staff2", "female", "401899991", 60000));
-        int userType = UserInputHandler.getInput(UserInputHandler.TYPE_FLAG);
-
+        Library library = LibraryFactory.createLibrary("all");
+        System.out.print("Enter 1 if you are a student, 2 if you are a staff: ");
+        int userType = UserInputHandler.<Integer>getInput("User");
         if (userType == STUDENT_USER) {
             handleStudent(library);
         } else if (userType == STAFF_USER) {
@@ -33,16 +23,19 @@ public class Main {
         }
         scanner.close();
     }
+
     /**
      * Handles operations for students, such as renting books.
      *
      * @param library the library instance
      */
     private static void handleStudent(Library library) {
-        String studentId = UserInputHandler.getStudentId();
+        System.out.print("Enter your student ID: ");
+        String studentId = UserInputHandler.<String>getInput("Student");
         if (library.isValidStudent(studentId)) {
             library.displayBooks();
-            int bookIndexToRent = UserInputHandler.getInput(UserInputHandler.BOOK_RENT_FLAG);
+            System.out.print("Enter index of the book you want to rent: ");
+            int bookIndexToRent = UserInputHandler.<Integer>getInput("Book");
             new Thread(() -> library.rentBook(bookIndexToRent - 1)).start();
         } else {
             System.out.println("Invalid student ID.");
@@ -55,7 +48,8 @@ public class Main {
      * @param library the library instance
      */
     private static void handleStaff(Library library) {
-        int action = UserInputHandler.getInput(UserInputHandler.STAFF_ACTION_FLAG);
+        System.out.print("Choose operation to perform: enter 1 to add Book and 2 to remove book: ");
+        int action = UserInputHandler.<Integer>getInput("Staff");
         if (action == ADD_BOOK) {
             addBook(library);
         } else if (action == REMOVE_BOOK) {
@@ -64,6 +58,7 @@ public class Main {
             System.out.println("Invalid input.");
         }
     }
+
     /**
      * Prompts the user to enter book details and adds the book to the library.
      *
@@ -76,7 +71,6 @@ public class Main {
         Author author = new Author(bookDetails[5], bookDetails[6], bookDetails[7], bookDetails[8]);
         Book newBook = new Book(bookDetails[0], Integer.parseInt(bookDetails[1]), bookDetails[2], bookDetails[3], bookDetails[4], author);
         library.addBook(newBook);
-        System.out.println("Book added.");
         } catch (NullPointerException e) {
             System.out.println("You need to add book info");
         }
@@ -89,7 +83,8 @@ public class Main {
      */
     private static void removeBook(Library library) {
         library.displayBooks();
-        int removeIndex = UserInputHandler.getInput(UserInputHandler.REMOVE_BOOK_FLAG);
+        System.out.print("Enter index of the book to remove: ");
+        int removeIndex = UserInputHandler.<Integer>getInput("Book");
         library.removeBook(removeIndex - 1);
         System.out.println("Book removed.");
     }

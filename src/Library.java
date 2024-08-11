@@ -147,6 +147,7 @@ class Library {
             System.out.println(i + 1 + " - Name: " + staffMember.getName() + ", Salary: " + staffMember.getSalary());
         }
     }
+
     /**
      * Gets the list of staff members.
      *

@@ -24,8 +24,8 @@ public class Book {
      * @param author     the author of the book
      */
     public Book(String isbn, int year, String title, String type, String publisher, Author author) {
-        this.isbn = isbn;
-        this.year = year;
+        setIsbn(isbn);
+        setYear(year);
         this.title = title;
         this.type = type;
         this.publisher = publisher;
@@ -47,10 +47,14 @@ public class Book {
      * @param isbn  the ISBN to set
      */
     public void setIsbn(String isbn) {
-        if (isbn.length() == 13) {
-            this.isbn = isbn;
-        } else {
-            throw new InvalidParameterException("ISBN must 13 digits long.");
+        try {
+            if (isbn.length() == 13) {
+                this.isbn = isbn;
+            } else {
+                throw new InvalidParameterException("ISBN must be 13 digits long.");
+            }
+        } catch (InvalidParameterException e) {
+            System.out.println("Invalid ISBN: " + e.getMessage());
         }
     }
 
@@ -70,11 +74,15 @@ public class Book {
      * @param year  the year of publication to set
      */
     public void setYear(int year) {
-        int currentYear = Year.now().getValue();
-        if (year > 0 && year <= currentYear) {
-            this.year = year;
-        } else {
-            throw new DateTimeException("Year must be a positive number and not in the future.");
+        try {
+            int currentYear = Year.now().getValue();
+            if (year > 0 && year <= currentYear) {
+                this.year = year;
+            } else {
+                throw new DateTimeException("Year must be a positive number and not in the future.");
+            }
+        } catch (DateTimeException e) {
+            System.out.println("Invalid Year: " + e.getMessage());
         }
     }
 
